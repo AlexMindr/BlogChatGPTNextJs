@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import SocialLinks from "./SocialLinks";
+import Ad1 from "public/assets/ad-1.jpg";
 
 type Props = {};
 
@@ -28,8 +29,18 @@ const Navbar = (props: Props) => {
             Blog dedicated towards AI and Job Automation
           </p>
         </div>
-        <div className="basis-full relative w-auto h-32 bg-wh-500">
-          {/* <Image src={}/> */}Img
+        <div className="basis-full relative w-auto h-32">
+          <Image
+            fill
+            alt="advert-1"
+            src={Ad1}
+            sizes="(max-width:480px) 100vw,
+              (max-width:768px) 75vw,
+              (max-width:1060px) 50vw,
+              33vw"
+            style={{ objectFit: "cover" }}
+            placeholder="blur"
+          />
         </div>
       </div>
       <hr className="border mx-10" />

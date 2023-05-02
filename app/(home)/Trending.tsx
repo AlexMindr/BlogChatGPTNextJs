@@ -1,4 +1,5 @@
 import { Post } from "@prisma/client";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -14,7 +15,19 @@ const TrendingCard = ({ className, post }: TrendingCardProps) => {
        hover:duration-500 hover:transition-opacity `}
       href={`${process.env.NEXT_PUBLIC_URL}/post/${post?.id}`}
     >
-      <div className="z-0 relative w-full h-full bg-wh-500">image</div>
+      <div className="z-0 relative w-full h-full">
+        <Image
+          fill
+          alt="travel"
+          src={post?.image}
+          sizes="(max-width:480px) 100vw,
+              (max-width:768px) 75vw,
+              (max-width:1060px) 50vw,
+              33vw"
+          style={{ objectFit: "cover" }}
+          placeholder="blur"
+        />
+      </div>
       {/* class for gradient over everything */}
       <div className="absolute z-1 top-0 left-0 w-full h-full bg-gradient-gradual"></div>
       <div className="absolute z-2 bottom-0 left-0 p-3">

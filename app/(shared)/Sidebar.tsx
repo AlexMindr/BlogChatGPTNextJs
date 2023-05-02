@@ -1,10 +1,11 @@
 import React from "react";
 import SocialLinks from "./SocialLinks";
 import Subscribe from "./Subscribe";
+import Image from "next/image";
+import Ad2 from "/public/assets/ad-2.png";
+import AboutProfile from "/public/assets/about-profile.jpg";
 
-type Props = {};
-
-const Sidebar = (props: Props) => {
+const Sidebar = () => {
   return (
     <section>
       <h4 className="bg-wh-900 py-3 px-5 text-wh-50 text-xs font-bold text-center">
@@ -14,11 +15,27 @@ const Sidebar = (props: Props) => {
         <SocialLinks isDark />
       </div>
       <Subscribe />
-      <div className="bg-wh-900 my-8">advert img</div>
+      <div className="my-1">
+        <Image
+          alt="advert-2"
+          src={Ad2}
+          width={500}
+          height={1000}
+          placeholder="blur"
+          className="hidden md:block my-8 w-full"
+        />
+      </div>
       <h4 className="bg-wh-900 py-3 px-5 text-wh-50 text-xs font-bold text-center">
         About the Blog
       </h4>
-      <div className="bg-wh-900 my-8">profile img</div>
+      <div className="flex justify-center">
+        <Image
+          alt="about-profile"
+          src={AboutProfile}
+          style={{ width: "500px", height: "250px", objectFit: "cover" }}
+          placeholder="blur"
+        />
+      </div>
       <h5 className="py-3 px-5 text-wh-500 font-bold text-center">
         Ioana Placeholder
       </h5>
