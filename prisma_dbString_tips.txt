@@ -1,0 +1,1 @@
+I had to add &&sslaccept=strict to the planetscale dburl in order for it to work properly on windows. On mac/linux there needs to be sslcert.
