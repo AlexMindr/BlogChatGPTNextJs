@@ -4,6 +4,7 @@ import { Post as PostType } from "@prisma/client";
 import { FormattedPostType } from "@/app/types";
 import Sidebar from "@/app/(shared)/Sidebar";
 import Content from "./Content";
+import { redirect } from "next/navigation";
 
 type Props = {
   params: { id: string };
@@ -30,6 +31,11 @@ const getPost = async (id: string) => {
 const Post = async ({ params }: Props) => {
   const { id } = params;
   const post: FormattedPostType | null = await getPost(id);
+
+  if (!post) {
+    return redirect("/404");
+  }
+
   return (
     <main className="px-10 leading-7">
       <div className="md:flex gap-10 mb-5">
