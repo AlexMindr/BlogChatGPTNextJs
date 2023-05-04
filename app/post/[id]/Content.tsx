@@ -1,12 +1,13 @@
 "use client";
 import { FormattedPostType } from "@/app/types";
 import React, { useState } from "react";
-import { XMarkIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
+
 import Image from "next/image";
 import SocialLinks from "@/app/(shared)/SocialLinks";
 import { EditorContent, useEditor, Editor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import EditorMenuBar from "./EditorMenuBar";
+import CategoryAndEdit from "./CategoryAndEdit";
 
 type Props = {
   post: FormattedPostType;
@@ -17,9 +18,16 @@ const Content = ({ post }: Props) => {
 
   const [title, setTitle] = useState<string>(post.title);
   const [titleError, setTitleError] = useState<string>("");
+  const [prevTitle, setPrevTitle] = useState<string>(title);
 
   const [content, setContent] = useState<string>(post.content);
   const [contentError, setContentError] = useState<string>("");
+  const [prevContent, setPrevContent] = useState<string>(content);
+
+  const handleOnChangeTitle = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (title) setTitle("");
+    setTitle(e.target.value);
+  };
 
   const handleOnChangeContent = ({ editor }: any) => {
     if (!(editor as Editor).isEmpty) setContentError("");
@@ -45,24 +53,18 @@ const Content = ({ post }: Props) => {
       {/* Breadcrumbs */}
       <h5 className="text-wh-300">{`Home > ${post.category} > ${post.title}`}</h5>
       {/* Category and edit */}
-      <div className="flex justify-between items-center">
-        <h4 className="bg-accent-orange py-2 px-5 text-wh-900 text-sm font-bold">
-          {post.category}
-        </h4>
-        <div className="mt-4">
-          {isEditable ? (
-            <div className="flex justify-between gap-3">
-              <button onClick={() => handleIsEditable(!isEditable)}>
-                <XMarkIcon className="h-6 w-6 text-accent-red" />
-              </button>
-            </div>
-          ) : (
-            <button onClick={() => handleIsEditable(!isEditable)}>
-              <PencilSquareIcon className="h-6 w-6 text-accent-red" />
-            </button>
-          )}
-        </div>
-      </div>
+      <CategoryAndEdit
+        isEditable={isEditable}
+        handleIsEditable={handleIsEditable}
+        title={title}
+        setTitle={setTitle}
+        prevTitle={prevTitle}
+        setPrevTitle={setPrevTitle}
+        prevContent={prevContent}
+        setPrevContent={setPrevContent}
+        editor={editor}
+        post={post}
+      />
       <form onSubmit={handleSubmit}>
         {/* Header */}
         <>
@@ -71,7 +73,7 @@ const Content = ({ post }: Props) => {
               <textarea
                 className="border-2 rounded-md bg-wh-50 p-3 w-full"
                 placeholder="Title"
-                onChange={(e) => {}}
+                onChange={handleOnChangeTitle}
                 value={title}
               />
             </div>
