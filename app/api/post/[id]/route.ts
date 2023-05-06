@@ -17,6 +17,6 @@ export async function PATCH(request: Request, { params }: ParamsType) {
     return NextResponse.json(post, { status: 200 });
   } catch (error) {
     console.error("req error", error);
-    NextResponse.json({ error: "error udating post" }, { status: 500 });
+    NextResponse.json({ error: "error updating post" }, { status: 500 });
   }
 }
