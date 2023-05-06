@@ -1,13 +1,12 @@
 "use client";
 import { FormattedPostType } from "@/app/types";
 import React, { useState } from "react";
-
 import Image from "next/image";
 import SocialLinks from "@/app/(shared)/SocialLinks";
-import { EditorContent, useEditor, Editor } from "@tiptap/react";
+import { useEditor, Editor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import EditorMenuBar from "./EditorMenuBar";
 import CategoryAndEdit from "./CategoryAndEdit";
+import Article from "./Article";
 
 type Props = {
   post: FormattedPostType;
@@ -24,6 +23,14 @@ const Content = ({ post }: Props) => {
   const [contentError, setContentError] = useState<string>("");
   const [prevContent, setPrevContent] = useState<string>(content);
 
+  const date = new Date(post?.createdAt);
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  const formattedDate = date.toLocaleDateString("en-Us", options);
+
   const handleOnChangeTitle = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (title) setTitle("");
     setTitle(e.target.value);
@@ -37,6 +44,12 @@ const Content = ({ post }: Props) => {
   const editor = useEditor({
     extensions: [StarterKit],
     onUpdate: handleOnChangeContent,
+    editorProps: {
+      attributes: {
+        class:
+          "prose prose-sm xl:prose-2xl leading-8 focus:outline-none w-full max-w-full",
+      },
+    },
     content: content,
     editable: isEditable,
   });
@@ -82,7 +95,7 @@ const Content = ({ post }: Props) => {
           )}
           <div className="flex gap-3">
             <h5 className="font-semibold text-xs">By {post.author}</h5>
-            <h6 className="text-wh-300 text-xs"> {post.createdAt}</h6>
+            <h6 className="text-wh-300 text-xs"> {formattedDate}</h6>
           </div>
         </>
         {/* Image */}
@@ -99,21 +112,13 @@ const Content = ({ post }: Props) => {
           />
         </div>
         {/* Editor */}
-        <div
-          className={
-            isEditable
-              ? "border-2 rounded-md bg-wh-50 p-3"
-              : "w-full max-w-full"
-          }
-        >
-          {isEditable && (
-            <>
-              <EditorMenuBar editor={editor} />
-              <hr className="border mt-2 mb-5" />
-            </>
-          )}
-          <EditorContent editor={editor} />
-        </div>
+        <Article
+          contentError={contentError}
+          editor={editor}
+          isEditable={isEditable}
+          setContent={setContent}
+          title={title}
+        />
         {/* Submit button */}
         {isEditable && (
           <div className="flex justify-end">
