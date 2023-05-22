@@ -7,7 +7,7 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-export async function POST(request: Request) {
+export async function POST(request: Request, response: any) {
   try {
     const { title, role } = await request.json();
     const aiResponse: AxiosResponse<CreateChatCompletionResponse, any> =
@@ -16,7 +16,8 @@ export async function POST(request: Request) {
         messages: [
           {
             role: "user",
-            content: `Create small blog post with html tags based on this title: ${title}`,
+            // content: `Create small blog post with html tags based on this title: ${title}`,
+            content: `Create 3 line blog post with html tags based on this title: ${title}`, //for free vercel deployment
           },
           {
             role: "system",
@@ -26,7 +27,7 @@ export async function POST(request: Request) {
           },
         ],
       });
-
+    //response.revalidate('/api/posts') //does not work on free vercel
     return NextResponse.json(
       { content: aiResponse.data.choices[0].message?.content },
       { status: 200 }

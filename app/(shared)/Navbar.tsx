@@ -13,12 +13,12 @@ const Navbar = (props: Props) => {
         <div className="hidden sm:block">
           <SocialLinks />
         </div>
-        <div className="flex justify-between items-center gap-10">
+        <div className="flex justify-between items-center gap-10 font-bold">
           <Link href="/">Home</Link>
           <Link href="/">Trending</Link>
           <Link href="/">About</Link>
         </div>
-        <div>
+        <div className="font-bold">
           <Link href="/">Sign In</Link>
         </div>
       </nav>
